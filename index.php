@@ -1,12 +1,10 @@
 <?php
 require 'connect.php';
 
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.php');
     exit;
 }
-
 
 $stmt = $conn->prepare('SELECT fullname, username, profile_image, created_at FROM users WHERE id = ?');
 $stmt->bind_param('i', $_SESSION['user_id']);
@@ -19,7 +17,6 @@ if (!$user) {
     exit;
 }
 
-
 $course      = 'Bachelor of Science in Computer Science (BSCS)';
 $courseShort = 'BSCS';
 $school      = 'Kolehiyo ng Subic';
@@ -29,7 +26,6 @@ $experience  = 'Student';
 $aboutGoal   = 'I want to explore the world of programming, web development, and expanding my knowledge in computer science.';
 $goal        = 'I am still learning and exploring more about web development, and I hope to become a better developer in the future.';
 
-// Contact
 $contactIntro = "Let's build something great together. Have a project in mind or just want to chat about web tech? I'm always open to discussing new opportunities, creative ideas, or ways to help your vision come to life.";
 $phone        = '+63 991 422 1439';
 $email        = 'baluyopaulvincent@gmail.com';
@@ -59,9 +55,22 @@ $projects = [
         'A personal website showcasing my skills, achievements, and projects.',
         'HTML • CSS • PHP • MySQL',
     ],
+    [
+        'Online Quiz System',
+        'Displays multiple-choice questions and calculates the user\'s score.',
+        'HTML • CSS • JavaScript',
+    ],
+    [
+        'Simple Calculator App',
+        'An interactive web calculator built with dynamic DOM manipulation.',
+        'HTML • CSS • JavaScript',
+    ],
+    [
+        'Student Attendance System',
+        'A system for tracking and managing student attendance records.',
+        'HTML • MySQL • CSS',
+    ],
 ];
-
-
 
 $imageFile = $user['profile_image'] ? basename($user['profile_image']) : '';
 $hasImage  = $imageFile !== '' && is_file(__DIR__ . '/uploads/' . $imageFile);
@@ -77,7 +86,6 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
 </head>
 <body>
 
-    
     <header class="site-header">
         <div class="container nav">
             <a class="brand" href="#home">MY<span>PORTFOLIO</span></a>
@@ -96,33 +104,34 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
 
     <main>
         
+        <!-- HERO SECTION (Walang picture sa gilid) -->
         <section id="home" class="hero">
-            <div class="container hero-grid">
-                <div>
-                    <p class="hero-sub">WELCOME TO MY PORTFOLIO</p>
-                    <h1>Hi, I'm <span class="highlight"><?= e($user['fullname']) ?></span></h1>
-                    <p class="lead"><?= e($goal) ?></p>
-                    <div class="hero-actions">
-                        <a class="btn btn-light" href="#projects">View my work</a>
-                        <a class="btn btn-outline-light" href="#contact">Contact me</a>
-                    </div>
-                </div>
-                <div class="hero-photo">
-                    <?php if ($hasImage): ?>
-                        <img src="uploads/<?= e($imageFile) ?>" alt="Profile picture of <?= e($user['fullname']) ?>">
-                    <?php else: ?>
-                        <div class="avatar-fallback" aria-hidden="true"><?= e($initial) ?></div>
-                    <?php endif; ?>
+            <div class="container hero-content">
+                <p class="hero-sub">WELCOME TO MY PORTFOLIO</p>
+                <h1>Hi, I'm <span class="highlight"><?= e($user['fullname']) ?></span></h1>
+                <p class="lead"><?= e($goal) ?></p>
+                <div class="hero-actions">
+                    <a class="btn btn-light" href="#projects">View my work</a>
+                    <a class="btn btn-outline-light" href="#contact">Contact me</a>
                 </div>
             </div>
         </section>
 
-        
+        <!-- ABOUT SECTION -->
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">About Me</h2>
 
+                <!-- Malaking puting box sa taas -->
                 <div class="about-card">
+                    <div class="about-pic">
+                        <?php if ($hasImage): ?>
+                            <img src="uploads/<?= e($imageFile) ?>" alt="<?= e($user['fullname']) ?>">
+                        <?php else: ?>
+                            <div class="avatar-fallback" aria-hidden="true"><?= e($initial) ?></div>
+                        <?php endif; ?>
+                    </div>
+
                     <div class="about-text">
                         <h3 class="about-name"><?= e($user['fullname']) ?></h3>
                         <p class="about-bio">
@@ -131,16 +140,9 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
                         </p>
                         <a class="about-btn" href="#projects">View Projects</a>
                     </div>
-
-                    <div class="about-pic">
-                        <?php if ($hasImage): ?>
-                            <img src="uploads/<?= e($imageFile) ?>" alt="<?= e($user['fullname']) ?>">
-                        <?php else: ?>
-                            <div class="avatar-fallback" aria-hidden="true"><?= e($initial) ?></div>
-                        <?php endif; ?>
-                    </div>
                 </div>
 
+                <!-- Stat grid na nakabukod sa labas para humaba at mapantay -->
                 <div class="stat-grid">
                     <div class="stat">
                         <div class="stat-icon">
@@ -175,7 +177,7 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
             </div>
         </section>
 
-        
+        <!-- SKILLS SECTION -->
         <section id="skills" class="section section-dark">
             <div class="container">
                 <h2 class="sec-title"><span class="dim">My</span> Skills</h2>
@@ -187,7 +189,7 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
             </div>
         </section>
 
-        
+        <!-- PROJECTS SECTION -->
         <section id="projects" class="section">
             <div class="container">
                 <h2 class="sec-title">Projects</h2>
@@ -203,7 +205,7 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
             </div>
         </section>
 
-        
+        <!-- CONTACT SECTION -->
         <section id="contact" class="section section-dark">
             <div class="container">
                 <h2 class="sec-title sec-left"><span class="dim">Contact</span> Me</h2>
@@ -244,7 +246,6 @@ $initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
         </section>
     </main>
 
-    
     <footer class="site-footer">
         <div class="container">
             <p>&copy; <?= date('Y') ?> <?= e($user['fullname']) ?>. All rights reserved.</p>
