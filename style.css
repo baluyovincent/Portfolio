@@ -1,5 +1,3 @@
-
-
 :root {
     --black: #0f172a;      
     --white: #ffffff;
@@ -30,7 +28,6 @@ ul { list-style: none; }
 
 .container { width: min(var(--max), 100% - 2rem); margin-inline: auto; }
 
-
 .brand {
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -38,7 +35,6 @@ ul { list-style: none; }
     font-size: 1.05rem;
 }
 .brand span { font-weight: 300; }
-
 
 .btn {
     display: inline-block;
@@ -64,7 +60,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     outline: 3px solid var(--grey-500);
     outline-offset: 2px;
 }
-
 
 .site-header {
     position: sticky;
@@ -94,14 +89,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .nav-links a:not(.btn):hover { color: var(--black); }
 
-
-.hero { background: var(--white); color: var(--black); padding-block: 3.5rem 5rem; }
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 3rem;
-    align-items: center;
-}
+.hero { background: var(--white); color: var(--black); padding-block: 5rem 6rem; }
+.hero-content { max-width: 800px; }
 .hero h1 {
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 800;
@@ -109,18 +98,16 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     line-height: 1.1;
     margin-bottom: 1.25rem;
 }
-.lead { font-size: 1.1rem; color: var(--grey-500); max-width: 56ch; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-
-.hero-photo { justify-self: center; }
-.hero-photo img, .hero-photo .avatar-fallback {
-    width: min(320px, 70vw);
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 6px solid var(--white);
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+.hero-sub {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--grey-500);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
 }
+.lead { font-size: 1.15rem; color: var(--grey-500); max-width: 60ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
 
 .avatar-fallback {
     display: grid;
@@ -130,7 +117,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     font-size: 6rem;
     font-weight: 800;
 }
-
 
 .section { padding-block: 4.5rem; background: var(--white); color: var(--black); }
 .section-dark { background: var(--soft); color: var(--black); }
@@ -146,18 +132,20 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .sec-title .dim { color: var(--grey-500); }
 .sec-left { text-align: left; margin-bottom: 1rem; }
 
-
 .about-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    text-align: center;
     gap: 2rem;
-    padding: 3rem;
+    padding: 3.5rem 3rem;
     background: var(--soft);
     color: var(--black);
     border: 1px solid var(--grey-300);
     border-radius: 24px;
     box-shadow: var(--shadow);
+    max-width: 850px;
+    margin-inline: auto;
 }
 .about-text { max-width: 560px; }
 .about-name {
@@ -190,12 +178,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
 }
 
-
 .stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.25rem;
-    margin-top: 1.5rem;
+    max-width: 850px;
+    margin: 1.5rem auto 0 auto;
 }
 .stat {
     display: flex;
@@ -228,7 +216,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .stat-value { font-size: 1.35rem; font-weight: 800; line-height: 1.2; }
 
-
 .skill-list {
     display: flex;
     flex-wrap: wrap;
@@ -248,7 +235,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     transition: transform 0.2s;
 }
 .skill:hover { transform: translateY(-4px); }
-
 
 .project-grid {
     display: grid;
@@ -278,7 +264,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     font-weight: 700;
     letter-spacing: 0.04em;
 }
-
 
 .contact-intro { max-width: 70ch; color: var(--grey-500); margin-bottom: 2rem; }
 .contact-cards { display: grid; gap: 1rem; }
@@ -313,7 +298,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     word-break: break-word;
 }
 
-
 .site-footer {
     background: var(--white);
     border-top: 1px solid var(--grey-300);
@@ -322,7 +306,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     padding-block: 1.5rem;
     font-size: 0.9rem;
 }
-
 
 .auth-page {
     min-height: 100vh;
@@ -353,7 +336,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     margin: 0.5rem 0 1.25rem;
 }
 
-
 .auth-card label {
     display: block;
     margin: 1.1rem 0 0.45rem;
@@ -361,7 +343,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     font-weight: 700;
     color: var(--black);
 }
-
 
 .auth-card input[type="text"],
 .auth-card input[type="password"],
@@ -396,7 +377,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     cursor: pointer;
 }
 
-
 .auth-btn {
     width: 100%;
     margin-top: 1.4rem;
@@ -423,7 +403,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .auth-switch a { font-weight: 700; color: var(--black); text-decoration: none; }
 .auth-switch a:hover { text-decoration: underline; }
 
-
 .alert {
     padding: 0.8rem 1rem;
     margin-bottom: 0.5rem;
@@ -434,12 +413,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .alert-ok { background: var(--grey-100); border: 1px solid var(--grey-300); color: var(--black); }
 .alert ul { padding-left: 1.1rem; list-style: disc; }
 
-
 @media (max-width: 860px) {
-    .hero-grid { grid-template-columns: 1fr; text-align: center; }
-    .hero-actions { justify-content: center; }
-    .lead { margin-inline: auto; }
-    .about-card { flex-direction: column-reverse; text-align: center; padding: 2rem 1.5rem; }
+    .hero-actions { justify-content: flex-start; }
+    .about-card { padding: 2rem 1.5rem; }
 }
 
 @media (max-width: 680px) {
