@@ -29,7 +29,7 @@ $goal        = 'I am still learning and exploring more about web development, an
 $contactIntro = "Let's build something great together. Have a project in mind or just want to chat about web tech? I'm always open to discussing new opportunities, creative ideas, or ways to help your vision come to life.";
 $phone        = '+63 991 422 1439';
 $email        = 'KobeDelacruz@gmail.com';
-$facebook     = 'Kobe Delacruz;
+$facebook     = 'Kobe Delacruz';
 
 $skills = [
     ['HTML',   'Structuring web pages with clean, semantic markup.'],
