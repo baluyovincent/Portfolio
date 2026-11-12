@@ -35,7 +35,7 @@ if (!isset($_SESSION['user_id'])) {
     <section class="hero">
         <div class="container hero-content">
             <p class="hero-sub">Welcome to my portal</p>
-            <h1>Hi, I'm <span style="color: var(--primary-blue);"><?= htmlspecialchars($_SESSION['fullname']) ?></span></h1>
+            <h1>Hi, I'm <span style="color: var(--primary-violet);"><?= htmlspecialchars($_SESSION['fullname']) ?></span></h1>
             <p class="lead">College Student & Aspiring Web Developer building dynamic, secure, and responsive web applications using PHP, MySQL, and modern frontend tools.</p>
             <div class="hero-actions">
                 <a href="#projects" class="btn btn-light">View Projects</a>
@@ -161,14 +161,14 @@ if (!isset($_SESSION['user_id'])) {
                     <div class="contact-icon">✉️</div>
                     <div>
                         <div class="contact-label">Email Address</div>
-                        <div class="contact-value"><?= htmlspecialchars(strtolower(str_replace(' ', '.', $_SESSION['username']))) ?>@student.edu</div>
+                        <div class="contact-value">KobeDelacruz@gmail.com</div>
                     </div>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">📍</div>
+                    <div class="contact-icon">🌐</div>
                     <div>
-                        <div class="contact-label">Institution</div>
-                        <div class="contact-value">Kolehiyo ng Subic</div>
+                        <div class="contact-label">Facebook Profile</div>
+                        <div class="contact-value">Kobe Delacruz</div>
                     </div>
                 </div>
             </div>
