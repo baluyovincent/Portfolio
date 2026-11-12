@@ -1,254 +1,184 @@
 <?php
-require 'connect.php';
-
+session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: signin.php');
+    header("Location: signin.php");
     exit;
 }
-
-$stmt = $conn->prepare('SELECT fullname, username, profile_image, created_at FROM users WHERE id = ?');
-$stmt->bind_param('i', $_SESSION['user_id']);
-$stmt->execute();
-$user = $stmt->get_result()->fetch_assoc();
-$stmt->close();
-
-if (!$user) {
-    header('Location: logout.php');
-    exit;
-}
-
-$course      = 'Bachelor of Science in Computer Science (BSCS)';
-$courseShort = 'BSCS';
-$school      = 'Kolehiyo ng Subic';
-$schoolShort = 'KNS';
-$yearLevel   = '2nd Year';
-$experience  = 'Student';
-$aboutGoal   = 'I want to explore the world of programming, web development, and expanding my knowledge in computer science.';
-$goal        = 'I am still learning and exploring more about web development, and I hope to become a better developer in the future.';
-
-$contactIntro = "Let's build something great together. Have a project in mind or just want to chat about web tech? I'm always open to discussing new opportunities, creative ideas, or ways to help your vision come to life.";
-$phone        = '+63 991 422 1439';
-$email        = 'baluyopaulvincent@gmail.com';
-$facebook     = 'Paul Vincent Baluyo';
-
-$skills = [
-    ['HTML',   'Structuring web pages with clean, semantic markup.'],
-    ['CSS',    'Responsive layouts, Flexbox, Grid, and consistent design.'],
-    ['PHP',    'Dynamic pages, sessions, forms, and file uploads.'],
-    ['MySQL',  'Designing tables and writing safe prepared queries.'],
-    ['Python', 'Scripting and problem solving with simple programs.'],
-];
-
-$projects = [
-    [
-        'Student Information System',
-        'Displays student information using PHP variables and HTML/CSS.',
-        'PHP • HTML • CSS',
-    ],
-    [
-        'Sign-Up and Sign-In System',
-        'A basic login and registration system that accepts user input.',
-        'PHP • HTML • CSS',
-    ],
-    [
-        'Personal Portfolio Website',
-        'A personal website showcasing my skills, achievements, and projects.',
-        'HTML • CSS • PHP • MySQL',
-    ],
-    [
-        'Online Quiz System',
-        'Displays multiple-choice questions and calculates the user\'s score.',
-        'HTML • CSS • JavaScript',
-    ],
-    [
-        'Simple Calculator App',
-        'An interactive web calculator built with dynamic DOM manipulation.',
-        'HTML • CSS • JavaScript',
-    ],
-    [
-        'Student Attendance System',
-        'A system for tracking and managing student attendance records.',
-        'HTML • MySQL • CSS',
-    ],
-];
-
-$imageFile = $user['profile_image'] ? basename($user['profile_image']) : '';
-$hasImage  = $imageFile !== '' && is_file(__DIR__ . '/uploads/' . $imageFile);
-$initial   = strtoupper(mb_substr($user['fullname'], 0, 1));
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($user['fullname']) ?> | Portfolio</title>
+    <title><?= htmlspecialchars($_SESSION['fullname']) ?> — Personal Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Header & Navigation -->
     <header class="site-header">
-        <div class="container nav">
-            <a class="brand" href="#home">MY<span>PORTFOLIO</span></a>
-            <nav aria-label="Main navigation">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="brand">PORTFO<span>LIO</span></a>
                 <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a class="btn btn-small" href="logout.php" onclick="return confirm('Are you sure you want to log out?');">Logout</a></li>
+                    <li><a href="logout.php" class="btn btn-small btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        
-        <!-- HERO SECTION (Walang picture sa gilid) -->
-        <section id="home" class="hero">
-            <div class="container hero-content">
-                <p class="hero-sub">WELCOME TO MY PORTFOLIO</p>
-                <h1>Hi, I'm <span class="highlight"><?= e($user['fullname']) ?></span></h1>
-                <p class="lead"><?= e($goal) ?></p>
-                <div class="hero-actions">
-                    <a class="btn btn-light" href="#projects">View my work</a>
-                    <a class="btn btn-outline-light" href="#contact">Contact me</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <p class="hero-sub">Welcome to my portal</p>
+            <h1>Hi, I'm <span style="color: var(--primary-blue);"><?= htmlspecialchars($_SESSION['fullname']) ?></span></h1>
+            <p class="lead">College Student & Aspiring Web Developer building dynamic, secure, and responsive web applications using PHP, MySQL, and modern frontend tools.</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-light">View Projects</a>
+                <a href="#contact" class="btn btn-outline-light">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">About <span class="dim">Me</span></h2>
+            
+            <div class="about-card">
+                <div class="about-pic">
+                    <?php if (!empty($_SESSION['profile_image'])): ?>
+                        <img src="uploads/<?= htmlspecialchars($_SESSION['profile_image']) ?>" alt="Profile Picture">
+                    <?php else: ?>
+                        <div class="avatar-fallback"><?= strtoupper(substr($_SESSION['fullname'], 0, 1)) ?></div>
+                    <?php endif; ?>
+                </div>
+                <div class="about-text">
+                    <h3 class="about-name"><?= htmlspecialchars($_SESSION['fullname']) ?></h3>
+                    <p class="about-bio">Hello! I am a passionate IT/CS student focusing on backend integration, session management, database optimization, and clean UI design.</p>
+                    <a href="#contact" class="about-btn">Contact Me</a>
                 </div>
             </div>
-        </section>
 
-        <!-- ABOUT SECTION -->
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">About Me</h2>
-
-                <!-- Malaking puting box sa taas -->
-                <div class="about-card">
-                    <div class="about-pic">
-                        <?php if ($hasImage): ?>
-                            <img src="uploads/<?= e($imageFile) ?>" alt="<?= e($user['fullname']) ?>">
-                        <?php else: ?>
-                            <div class="avatar-fallback" aria-hidden="true"><?= e($initial) ?></div>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="about-text">
-                        <h3 class="about-name"><?= e($user['fullname']) ?></h3>
-                        <p class="about-bio">
-                            I am <?= e($yearLevel) ?> student currently studying <?= e($course) ?> at <?= e($school) ?>.
-                            <?= e($aboutGoal) ?>
-                        </p>
-                        <a class="about-btn" href="#projects">View Projects</a>
+            <!-- Stats Grid -->
+            <div class="stat-grid">
+                <div class="stat">
+                    <div class="stat-icon">📁</div>
+                    <div>
+                        <div class="stat-label">Total Projects</div>
+                        <div class="stat-value">6 Completed</div>
                     </div>
                 </div>
-
-                <!-- Stat grid na nakabukod sa labas para humaba at mapantay -->
-                <div class="stat-grid">
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                        </div>
-                        <div>
-                            <p class="stat-label">Total Projects</p>
-                            <p class="stat-value"><?= count($projects) ?></p>
-                        </div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg>
-                        </div>
-                        <div>
-                            <p class="stat-label">Course &amp; School</p>
-                            <p class="stat-value"><?= e($courseShort) ?> - <?= e($schoolShort) ?></p>
-                        </div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
-                        </div>
-                        <div>
-                            <p class="stat-label">Experience</p>
-                            <p class="stat-value"><?= e($experience) ?></p>
-                        </div>
+                <div class="stat">
+                    <div class="stat-icon">🎓</div>
+                    <div>
+                        <div class="stat-label">Course & School</div>
+                        <div class="stat-value">BSCS - College</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- SKILLS SECTION -->
-        <section id="skills" class="section section-dark">
-            <div class="container">
-                <h2 class="sec-title"><span class="dim">My</span> Skills</h2>
-                <div class="skill-list">
-                    <?php foreach ($skills as $skill): ?>
-                        <div class="skill" title="<?= e($skill[1]) ?>"><?= e($skill[0]) ?></div>
-                    <?php endforeach; ?>
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title">Technical <span class="dim">Skills</span></h2>
+            <ul class="skill-list">
+                <li class="skill">HTML5 / CSS3</li>
+                <li class="skill">PHP Backend</li>
+                <li class="skill">MySQL Database</li>
+                <li class="skill">JavaScript</li>
+                <li class="skill">XAMPP Server</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Projects Section (6 Projects) -->
+    <section id="projects" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Featured <span class="dim">Projects</span></h2>
+            <div class="project-grid">
+                
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <h3>Student Registration System</h3>
+                    <p>An academic registry platform built with PHP and MySQL featuring user authentication, password hashing, and session management.</p>
+                    <span class="project-tags">PHP / MySQL</span>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <h3>Inventory Management System</h3>
+                    <p>An enterprise dashboard application designed to track stock items, suppliers, and daily transactional item movements.</p>
+                    <span class="project-tags">PHP / MySQL</span>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <h3>Personal Portfolio Website</h3>
+                    <p>A fully responsive digital resume platform featuring profile image uploads, secure access controls, and dynamic greeting.</p>
+                    <span class="project-tags">Full-Stack</span>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <h3>Interactive Calculator App</h3>
+                    <p>A web-based computational tool built with clean layouts and responsive JavaScript logic for immediate calculations.</p>
+                    <span class="project-tags">JavaScript</span>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <h3>To-Do List Task Manager</h3>
+                    <p>A productivity application to organize daily student tasks, track status checkboxes, and manage completion goals.</p>
+                    <span class="project-tags">JavaScript / CSS</span>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card">
+                    <h3>CS Quiz Game App</h3>
+                    <p>An engaging trivia game testing computer science fundamentals with instant scoring and interactive question flows.</p>
+                    <span class="project-tags">JavaScript</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get in <span class="dim">Touch</span></h2>
+            <p class="contact-intro">Feel free to reach out for collaboration, project inquiries, or academic questions.</p>
+            
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <div class="contact-label">Email Address</div>
+                        <div class="contact-value"><?= htmlspecialchars(strtolower(str_replace(' ', '.', $_SESSION['username']))) ?>@student.edu</div>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <div class="contact-label">Institution</div>
+                        <div class="contact-value">Kolehiyo ng Subic</div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- PROJECTS SECTION -->
-        <section id="projects" class="section">
-            <div class="container">
-                <h2 class="sec-title">Projects</h2>
-                <div class="project-grid">
-                    <?php foreach ($projects as $project): ?>
-                        <article class="project-card">
-                            <h3><?= e($project[0]) ?></h3>
-                            <p><?= e($project[1]) ?></p>
-                            <span class="project-tags"><?= e($project[2]) ?></span>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACT SECTION -->
-        <section id="contact" class="section section-dark">
-            <div class="container">
-                <h2 class="sec-title sec-left"><span class="dim">Contact</span> Me</h2>
-                <p class="contact-intro"><?= e($contactIntro) ?></p>
-
-                <div class="contact-cards">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        </div>
-                        <div>
-                            <p class="contact-label">My Phone</p>
-                            <span class="contact-value"><?= e($phone) ?></span>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-                        </div>
-                        <div>
-                            <p class="contact-label">My Email</p>
-                            <span class="contact-value"><?= e($email) ?></span>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                        </div>
-                        <div>
-                            <p class="contact-label">My Facebook</p>
-                            <span class="contact-value"><?= e($facebook) ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; <?= date('Y') ?> <?= e($user['fullname']) ?>. All rights reserved.</p>
+            <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($_SESSION['fullname']) ?>. All Rights Reserved.</p>
         </div>
     </footer>
 
